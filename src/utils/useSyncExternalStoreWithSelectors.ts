@@ -14,21 +14,21 @@ import is from './objectIs';
 // for CommonJS interop.
 const {useRef, useEffect, useMemo, useDebugValue} = React;
 
-function isPromise(value) {
+function isPromise(value: any) {
     return value !== null && typeof value === 'object' && typeof value.then === 'function';
 }
 
 // Same as useSyncExternalStore, but supports selector and isEqual arguments.
 export function useSyncExternalStoreWithSelector(
-    subscribe,
-    getSnapshot,
-    getServerSnapshot,
-    selector,
-    isEqual,
+    subscribe: any,
+    getSnapshot: any,
+    getServerSnapshot: any,
+    selector: any,
+    isEqual: any,
 ): Selection {
     // Use this to track the rendered snapshot.
     const instRef = useRef(null);
-    let inst;
+    let inst: any;
     if (instRef.current === null) {
         inst = {
             hasValue: false,
@@ -45,7 +45,7 @@ export function useSyncExternalStoreWithSelector(
         // useRef hook, because that state would be shared across all concurrent
         // copies of the hook/component.
         let hasMemo = false;
-        let memoizedSnapshot;
+        let memoizedSnapshot: any;
         let memoizedSelection: Selection;
 
         let firstRun = true
@@ -56,11 +56,11 @@ export function useSyncExternalStoreWithSelector(
 
 
         function notifySubscribers() {
-            subscribers.forEach((callback) => callback());
+            subscribers.forEach((callback: any) => callback());
         }
 
 
-        const memoizedSelector = (nextSnapshot: Snapshot) => {
+        const memoizedSelector = (nextSnapshot: any) => {
             if (!hasMemo) {
                 memoizedSnapshot = nextSnapshot;
                 const nextSelection = selector(nextSnapshot);
@@ -119,7 +119,7 @@ export function useSyncExternalStoreWithSelector(
 
 
 
-        const waitForValueAndNotifySubscribers = async (nextSnapshot: Snapshot, nextSelectionPromise) => {
+        const waitForValueAndNotifySubscribers = async (nextSnapshot: any, nextSelectionPromise: any) => {
             if (!hasMemo) {
                 memoizedSnapshot = nextSnapshot;
 
@@ -189,7 +189,7 @@ export function useSyncExternalStoreWithSelector(
                 notifySubscribers()
             }
         })
-        function subscribeInternal(callback) {
+        function subscribeInternal(callback: any) {
             subscribers.add(callback);
             return () => {
                 subscribers.delete(callback);
