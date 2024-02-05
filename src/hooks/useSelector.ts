@@ -176,10 +176,11 @@ export function createSelectorHook(
 
     const firstRun = React.useRef(true)
 
-    const wrappedSelector = React.useCallback<typeof selector>(
+    const wrappedSelector = React.useCallback(
       {
         [selector.name](state: TState) {
           const selected = selector(state)
+
           if (process.env.NODE_ENV !== 'production') {
             const {
               identityFunctionCheck: finalIdentityFunctionCheck,

@@ -70,14 +70,21 @@ describe('React', () => {
       afterEach(() => rtl.cleanup())
 
       describe('core subscription behavior', () => {
-        it('selects the state on initial render', () => {
+        it('selects the state on initial render', async () => {
           let result: number | undefined
-          const Comp = () => {
-            const count = useNormalSelector((state) => state.count)
 
-            useLayoutEffect(() => {
+          const selectorAsync = async (state) => new Promise(resolve => {
+            setTimeout(() => {
+              resolve(state.count)
+            },0)
+          })
+
+          const Comp = () => {
+            const count = useNormalSelector(selectorAsync)
+
+            useEffect(() => {
               result = count
-            }, [])
+            }, [count])
             return <div>{count}</div>
           }
 
@@ -87,8 +94,11 @@ describe('React', () => {
             </ProviderMock>,
           )
 
-          expect(result).toEqual(0)
+          await rtl.waitFor(() => {
+            expect(result).toEqual(0)
+          })
         })
+
 
         it('selects the state and renders the component when the store updates', () => {
           const selector = vi.fn((s: NormalStateType) => s.count)
