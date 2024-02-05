@@ -119,7 +119,7 @@ export interface UseSelector<StateType = unknown> {
 }
 
 let useSyncExternalStoreWithSelector = notInitialized as uSESWS
-export const initializeUseSelector = (fn: uSESWS) => {
+export const initializeUseSelector = (fn: any) => {
   useSyncExternalStoreWithSelector = fn
 }
 
